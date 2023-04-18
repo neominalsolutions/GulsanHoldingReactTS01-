@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Row } from 'react-bootstrap';
 
 export type HeaderProps = {
 	text: string; // required
@@ -7,10 +8,14 @@ export type HeaderProps = {
 
 function Header({ text, content = 'Content' }: HeaderProps) {
 	return (
-		<div>
-			<h1>{text}</h1>
-			<p>{content}</p>
-		</div>
+		<Container
+			fluid
+			style={{ backgroundColor: 'aliceblue', color: 'blue' }}>
+			<Row>
+				<h5>{text}</h5>
+				{/* <p>{content}</p> */}
+			</Row>
+		</Container>
 	);
 }
 

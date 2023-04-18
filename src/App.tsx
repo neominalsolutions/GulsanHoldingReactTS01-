@@ -1,9 +1,8 @@
-import React from 'react';
-// import { RouteObject, useRoutes } from 'react-router-dom';
 import Layout from './layout/Layout';
-// import { RouteObject } from 'react-router-dom';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouteObject, useRoutes } from 'react-router-dom';
+import AboutPage from './pages/about/AboutPage';
+import HomePage from './pages/home/HomePage';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -15,19 +14,15 @@ function App() {
 			children: [
 				{
 					path: '/',
-					element: <>Home Page</>,
+					element: <HomePage />,
 				},
 				{
 					path: '/home',
-					element: <>Home Page</>,
+					element: <HomePage />,
 				},
 				{
 					path: '/about',
-					element: (
-						<>
-							<h1>About Page</h1>
-						</>
-					),
+					element: <AboutPage />,
 				},
 			],
 		},
