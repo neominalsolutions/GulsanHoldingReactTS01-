@@ -81,11 +81,19 @@ function HomePage() {
 	}, [c, counter]); // [state dependency diyoruz] // ya c yada counter state takip et, istedeiğimiz kadar state takibini yapabiliriz. [state1,state2] yazılan statelerin takibini yapar.
 
 	*/
+
+	const employeSelect = async (id: string) => {
+		alert('seçilen' + id);
+		// git ticketları idsine göre filterele state değiştir.
+		setTickets(await ticketClient.getTicketsByCustomer(id));
+		// apiden çek state güncelle.
+	};
 	return (
 		<div>
 			<Row>
 				<Col>
 					<EmployeeSelector
+						onSelected={(id: string) => employeSelect(id)}
 						employees={[
 							{ id: '1', fullName: 'ali' },
 							{ id: '2', fullName: 'Can' },

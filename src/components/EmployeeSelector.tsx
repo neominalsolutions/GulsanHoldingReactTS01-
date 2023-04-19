@@ -6,13 +6,17 @@ export interface IEmployee {
 	fullName: string;
 }
 
+// propslar içerisinde event ve property olabilir.
 export type EmployeProps = {
 	employees: IEmployee[];
+	onSelected(id: string): void;
 };
 
-function EmployeeSelector({ employees }: EmployeProps) {
+function EmployeeSelector({ employees, onSelected }: EmployeProps) {
 	const onEmployeeSelect = (event: any) => {
 		console.log('id', event.target.value);
+		// componentin OnSelected Props'unu tetikle event gönderme yöntemi.
+		onSelected(event.target.value);
 	};
 
 	return (
