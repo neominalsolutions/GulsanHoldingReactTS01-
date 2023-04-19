@@ -4,25 +4,21 @@ import { AxiosHeaders } from 'axios';
 import HttpClient, { IHttpClient } from './httpClient';
 
 // apidan döncecek olan dto tanımı
-export interface Ticket {
+export interface Employee {
 	id: string;
-	description: string;
-	employeeName: string;
-	workingHour: number;
-	startDate: Date;
-	endDate: Date;
+	fullName: string;
 }
 
 // apidaki hangi uçlarla haberleşeceğimiz belirledim.
-export interface ITicketClient {
-	getTickets(): Promise<Ticket[]>;
-	getTicketsByCustomer(id: string): Promise<Ticket[]>;
+export interface IEmployeeClient {
+	getEmployees(): Promise<Employee[]>;
+	getEmployeeById(id: string): Promise<Employee[]>;
 }
 
 // httpClient sınıfım üzerinden api isteklerini get,post,put,delete,patch yapacağım bir servis tanımladık.
-export class TicketClient implements ITicketClient {
+export class EmployeeClient implements IEmployeeClient {
 	httpClient!: HttpClient;
-	private endpoint: string = 'api/tickets';
+	private endpoint: string = 'api/employees';
 
 	constructor() {
 		this.httpClient = new HttpClient({
@@ -30,14 +26,10 @@ export class TicketClient implements ITicketClient {
 			headers: new AxiosHeaders().set('Content-Type', 'application/json'),
 		});
 	}
-
-	getTickets(): Promise<Ticket[]> {
-		return this.httpClient.get(this.endpoint, {
-			Authorization: 'Bearer xdsadsad',
-		});
+	getEmployees(): Promise<Employee[]> {
+		return this.httpClient.get(this.endpoint);
 	}
-	getTicketsByCustomer(id: string): Promise<Ticket[]> {
-		// api/tickets?employeeId=1
+	getEmployeeById(id: string): Promise<Employee[]> {
 		return this.httpClient.get(`${this.endpoint}/${id}`);
 	}
 }

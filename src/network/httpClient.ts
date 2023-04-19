@@ -116,8 +116,10 @@ export default class HttpClient implements IHttpClient {
 			return (
 				await this.axios.get<TResponse>(endpoint, { headers: headers })
 			).data;
-		} catch (error) {
+		} catch (error: any) {
 			console.log('api get error', error);
+
+			// window.alert(error.message);
 		}
 		return {} as TResponse;
 	}

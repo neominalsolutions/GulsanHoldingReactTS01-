@@ -9,7 +9,7 @@ export interface IEmployee {
 // propslar içerisinde event ve property olabilir.
 export type EmployeProps = {
 	employees: IEmployee[];
-	onSelected(id: string): void;
+	onSelected(id: string): void; // event fırmatma şekli
 };
 
 function EmployeeSelector({ employees, onSelected }: EmployeProps) {
@@ -18,6 +18,9 @@ function EmployeeSelector({ employees, onSelected }: EmployeProps) {
 		// componentin OnSelected Props'unu tetikle event gönderme yöntemi.
 		onSelected(event.target.value);
 	};
+
+	// employees varsa kontrolü ile arayüzü doldur yaptık
+	// employees && undefined değilse demek, scomponente object basarken mantıklı faka dizi varsa length kontrolü yapalım.
 
 	return (
 		<Form.Select

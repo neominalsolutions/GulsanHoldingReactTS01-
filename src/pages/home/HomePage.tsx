@@ -3,6 +3,7 @@ import { TicketClient, Ticket } from '../../network/taskClient';
 import TicketCard from '../../components/TicketCard';
 import { Col, Row } from 'react-bootstrap';
 import EmployeeSelector from '../../components/EmployeeSelector';
+import { Employee, EmployeeClient } from '../../network/employeeClient';
 
 const fetchTickets = async (signal: any) => {
 	// fetch default httpget çalışır.
@@ -24,27 +25,20 @@ const fetchTickets = async (signal: any) => {
 function HomePage() {
 	// let tickets: Ticket[] = [];
 	const [tickets, setTickets] = useState<Ticket[]>([]);
+	const [employees, setEmployees] = useState<Employee[]>([]);
 
 	const ticketClient = new TicketClient(); // ticketClient instance aldık bağlantık.
+	const employeeClient = new EmployeeClient();
 
-	const getTickets = async () => {
+	const loadData = async () => {
 		setTickets(await ticketClient.getTickets()); // client apidan veri çektik.
-		// setState ile arayüze basabiliriz.
-
-		// ticketClient
-		// 	.getTickets()
-		// 	.then((response) => {
-		// 		console.log('ticket-res');
-		// 	})
-		// 	.catch((err) => {
-		// 		console.log('err', err);
-		// 	});
+		setEmployees(await employeeClient.getEmployees());
 
 		console.log('tickets', tickets);
 	};
 
 	useEffect(() => {
-		getTickets(); // veriyi çek.
+		loadData(); // veriyi çek.
 		// const interval = setInterval(() => {
 		// 	console.log('int');
 		// }, 1000);
@@ -92,18 +86,28 @@ function HomePage() {
 		<div>
 			<Row>
 				<Col>
-					<EmployeeSelector
-						onSelected={(id: string) => employeSelect(id)}
-						employees={[
-							{ id: '1', fullName: 'ali' },
-							{ id: '2', fullName: 'Can' },
-						]}
-					/>
+					{employees.length > 0 ? (
+						<EmployeeSelector
+							onSelected={async (id: string) => {
+								setTickets(
+									await ticketClient.getTicketsByCustomer(id)
+								);
+							}}
+							//onSelected={async (id: string) => employeSelect(id)}
+							employees={employees}
+						/>
+					) : (
+						<></>
+					)}
 				</Col>
 			</Row>
 			<Row>
 				<Col>
-					<TicketCard tickets={tickets} />
+					{tickets.length > 0 ? (
+						<TicketCard tickets={tickets} />
+					) : (
+						<></>
+					)}
 				</Col>
 			</Row>
 		</div>
