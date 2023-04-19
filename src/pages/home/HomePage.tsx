@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { TicketClient, Ticket } from '../../network/taskClient';
 
 const fetchTickets = async (signal: any) => {
 	// fetch default httpget çalışır.
@@ -21,11 +22,32 @@ function HomePage() {
 	const [counter, setCounter] = useState<number>(0);
 	const [c, setC] = useState<number>(0);
 
+	let tickets: Ticket[] = [];
+
+	const ticketClient = new TicketClient(); // ticketClient instance aldık bağlantık.
+
+	const getTickets = async () => {
+		tickets = await ticketClient.getTickets(); // client apidan veri çektik.
+		// setState ile arayüze basabiliriz.
+
+		// ticketClient
+		// 	.getTickets()
+		// 	.then((response) => {
+		// 		console.log('ticket-res');
+		// 	})
+		// 	.catch((err) => {
+		// 		console.log('err', err);
+		// 	});
+
+		console.log('tickets', tickets);
+	};
+
 	const OnClick = () => {
 		alert('click');
 		setCounter(counter + 1);
 	};
 	useEffect(() => {
+		getTickets(); // veriyi çek.
 		// const interval = setInterval(() => {
 		// 	console.log('int');
 		// }, 1000);
@@ -38,7 +60,7 @@ function HomePage() {
 		console.log('component doma girdi');
 		const controller = new AbortController();
 		const signal = controller.signal;
-		fetchTickets(signal);
+		// fetchTickets(signal);
 		// clean up function
 		return () => {
 			// component domdan ayrıldığında component içinde bağlı bir kaynak varsa kesinti yapacağımız kısım

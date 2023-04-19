@@ -3,6 +3,7 @@
 import { AxiosHeaders } from 'axios';
 import HttpClient, { IHttpClient } from './httpClient';
 
+// apidan döncecek olan dto tanımı
 export interface Ticket {
 	id: string;
 	description: string;
@@ -12,11 +13,13 @@ export interface Ticket {
 	endDate: Date;
 }
 
+// apidaki hangi uçlarla haberleşeceğimiz belirledim.
 export interface ITicketClient {
 	getTickets(): Promise<Ticket[]>;
 	getTicketsByCustomer(id: string): Promise<Ticket[]>;
 }
 
+// httpClient sınıfım üzerinden api isteklerini get,post,put,delete,patch yapacağım bir servis tanımladık.
 export class TicketClient implements ITicketClient {
 	httpClient!: HttpClient;
 	private endpoint: string = 'api/tickets';
