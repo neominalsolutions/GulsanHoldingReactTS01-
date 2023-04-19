@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TicketClient, Ticket } from '../../network/taskClient';
 import TicketCard from '../../components/TicketCard';
+import { Col, Row } from 'react-bootstrap';
+import EmployeeSelector from '../../components/EmployeeSelector';
 
 const fetchTickets = async (signal: any) => {
 	// fetch default httpget çalışır.
@@ -81,7 +83,21 @@ function HomePage() {
 	*/
 	return (
 		<div>
-			<TicketCard tickets={tickets} />
+			<Row>
+				<Col>
+					<EmployeeSelector
+						employees={[
+							{ id: '1', fullName: 'ali' },
+							{ id: '2', fullName: 'Can' },
+						]}
+					/>
+				</Col>
+			</Row>
+			<Row>
+				<Col>
+					<TicketCard tickets={tickets} />
+				</Col>
+			</Row>
 		</div>
 	);
 }
