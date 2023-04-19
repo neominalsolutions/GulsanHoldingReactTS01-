@@ -17,6 +17,10 @@ function Menu() {
 			text: 'Hakkımızda',
 			url: '/about',
 		},
+		{
+			text: 'Promise Örneği',
+			url: '/promises',
+		},
 	];
 
 	return (

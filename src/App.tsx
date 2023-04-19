@@ -3,6 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouteObject, useRoutes } from 'react-router-dom';
 import AboutPage from './pages/about/AboutPage';
 import HomePage from './pages/home/HomePage';
+import Promises from './pages/promises/Promises';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -23,6 +24,10 @@ function App() {
 				{
 					path: '/about',
 					element: <AboutPage />,
+				},
+				{
+					path: '/promises',
+					element: <Promises />,
 				},
 			],
 		},

@@ -9,12 +9,14 @@ const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
-	<React.StrictMode>
-		{/* BrowserRouter ile tüm uygulama sarmallıyoruz ve tüm uygulama JS routing yapar. */}
-		<BrowserRouter>
-			<App />
-		</BrowserRouter>
-	</React.StrictMode>
+	<BrowserRouter>
+		<App />
+	</BrowserRouter>
+	// <React.StrictMode>
+	// sadece development da test amaçlı açık olan bir mod bu mod yüzünden component içerisindeki hooklar iki kez tetiklenir. ama production modda burası kapalı.
+	/* BrowserRouter ile tüm uygulama sarmallıyoruz ve tüm uygulama JS routing yapar. */
+
+	// </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function
