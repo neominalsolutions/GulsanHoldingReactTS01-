@@ -80,7 +80,7 @@ export default class HttpClient implements IHttpClient {
 			);
 			return response.data;
 		} catch (error) {
-			console.log('api patch error');
+			console.log('api patch error', error);
 		}
 		return {} as TResponse;
 	}
@@ -96,7 +96,7 @@ export default class HttpClient implements IHttpClient {
 			});
 			return response.data;
 		} catch (error) {
-			console.log('api put error');
+			console.log('api put error', error);
 		}
 		return {} as TResponse;
 	}
@@ -106,7 +106,7 @@ export default class HttpClient implements IHttpClient {
 			const response = await this.axios.delete<TResponse>(endpoint);
 			return response.data;
 		} catch (error) {
-			console.log('api post error');
+			console.log('api post error', error);
 		}
 		return {} as TResponse;
 	}
