@@ -34,7 +34,7 @@ function HomePage() {
 		setTickets(await ticketClient.getTickets()); // client apidan veri çektik.
 		setEmployees(await employeeClient.getEmployees());
 
-		console.log('tickets', tickets);
+		console.log('tickets', await ticketClient.getTickets());
 	};
 
 	useEffect(() => {

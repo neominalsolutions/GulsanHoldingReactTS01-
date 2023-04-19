@@ -4,6 +4,7 @@ import { RouteObject, useRoutes } from 'react-router-dom';
 import AboutPage from './pages/about/AboutPage';
 import HomePage from './pages/home/HomePage';
 import Promises from './pages/promises/Promises';
+import LoginPage from './pages/login/LoginPage';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -30,6 +31,10 @@ function App() {
 					element: <Promises />,
 				},
 			],
+		},
+		{
+			path: '/account/login',
+			element: <LoginPage />,
 		},
 		{
 			path: '/admin', // admin routes

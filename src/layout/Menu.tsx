@@ -21,6 +21,10 @@ function Menu() {
 			text: 'Promise Örneği',
 			url: '/promises',
 		},
+		{
+			text: 'Oturum Aç',
+			url: '/account/login',
+		},
 	];
 
 	return (
