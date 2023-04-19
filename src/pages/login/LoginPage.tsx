@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import { LoginClient, LoginModel } from '../../network/loginClient';
+import {
+	LoginClient,
+	LoginModel,
+	LoginResult,
+} from '../../network/loginClient';
 import { useNavigate } from 'react-router-dom';
 
 function LoginPage() {
@@ -11,11 +15,11 @@ function LoginPage() {
 		password: 'Test12345?',
 	});
 
-	const login = (event: any) => {
+	// login service async olduğundan form post methodunu da async tanımladık.
+	// LoginResult değerine göre başarılı ise anasayfaya yönlendir. başarılı değilse  hatayı alert verdik.
+	const onSubmit = async (event: any) => {
 		event.preventDefault(); // formun post edilmesini engelliyoruz
-		const result = loginService.login(formState);
-
-		console.log('result', result);
+		const result: LoginResult = await loginService.login(formState);
 
 		if (result.isSucceded) {
 			navigate('/');
@@ -31,7 +35,7 @@ function LoginPage() {
 			<h1> Oturum Açma Ekranı </h1>
 			<form
 				method='post'
-				onSubmit={login}
+				onSubmit={onSubmit}
 				noValidate>
 				<input
 					defaultValue={formState?.email}

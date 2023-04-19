@@ -18,7 +18,7 @@ import HttpClient, { IHttpClient } from './httpClient';
 
 // apidaki hangi uçlarla haberleşeceğimiz belirledim.
 export interface ILoginClient {
-	login(param: LoginModel): LoginResult;
+	login(param: LoginModel): Promise<LoginResult>;
 }
 
 // httpClient sınıfım üzerinden api isteklerini get,post,put,delete,patch yapacağım bir servis tanımladık.
@@ -33,25 +33,26 @@ export class LoginClient implements ILoginClient {
 		});
 	}
 
-	login = (param: LoginModel) => {
-		const fetch = async () => {
-			var token: any = await this.httpClient.post(this.endpoint, param);
+	// method içerisinde async bir işlem yaptığımızdan dolayı methodu async tanımladık. try catch blogu ile fraklı tipte LoginResult return ettik.
+	// Not : async tanımlanmış methodların dönüş tipi Promise olmalıdır.
+	async login(param: LoginModel): Promise<LoginResult> {
+		try {
+			// LoginModel RequestModel
+			// TokenModel ResponseModel
+			// LoginResult ise arayüzden kullanılan success error durumu için tanımladığımız model
+			const token = await this.httpClient.post<LoginModel, TokenModel>(
+				this.endpoint,
+				param
+			);
 			localStorage.setItem('accessToken', token.accessToken);
 			localStorage.setItem('refreshToken', token.refreshToken);
-		};
-
-		try {
-			fetch();
-
-			return {
-				isSucceded: true,
-			} as LoginResult;
+			return { isSucceded: true } as LoginResult;
 		} catch (error: any) {
-			console.log('err', error);
+			console.log('error', error);
 			return {
 				isSucceded: false,
-				errorMessage: error.response.data.errors,
+				errorMessage: error.response.data.errors, // hatalar backend error middlewareden error.response.data.errors altında geliyor
 			} as LoginResult;
 		}
-	};
+	}
 }

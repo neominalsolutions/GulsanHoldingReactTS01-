@@ -1,6 +1,6 @@
 // HTTP VERB isteklerini merkezi olarak burası yönetsin.
 
-import axios, { AxiosHeaders, AxiosInstance } from 'axios';
+import axios, { AxiosError, AxiosHeaders, AxiosInstance } from 'axios';
 
 export interface ApiConfig {
 	baseUrl: string; //  https://localhost:7044/
@@ -55,14 +55,13 @@ export default class HttpClient implements IHttpClient {
 		headers?: any
 	): Promise<TResponse> {
 		try {
-			const response = await this.axios.post<TResponse>(endpoint, param, {
+			return await this.axios.post(endpoint, param, {
 				headers: headers,
 			});
-			return response.data;
 		} catch (error) {
-			console.log('api post error', error);
+			console.log('error', error);
+			return Promise.reject(error); // Hata durumlarını servis üzerinden yakalamak için Promise.reject(error) kodunu implemente etmediğimizden catch bloguna düşememişiz. burası tüm methodlardan güncelllendi
 		}
-		return {} as TResponse;
 	}
 
 	async patch<TRequest, TResponse>(
@@ -71,44 +70,34 @@ export default class HttpClient implements IHttpClient {
 		headers?: any
 	): Promise<TResponse> {
 		try {
-			const response = await this.axios.patch<TResponse>(
-				endpoint,
-				param,
-				{
-					headers: headers,
-				}
-			);
-			return response.data;
+			return await this.axios.patch(endpoint, param, {
+				headers: headers,
+			});
 		} catch (error) {
-			console.log('api patch error', error);
+			return Promise.reject(error);
 		}
-		return {} as TResponse;
 	}
 
 	async put<TRequest, TResponse>(
 		endpoint: string,
 		param: TRequest,
 		headers?: any
-	): Promise<TResponse> {
+	): Promise<any> {
 		try {
-			const response = await this.axios.put<TResponse>(endpoint, param, {
+			return await this.axios.put<TResponse>(endpoint, param, {
 				headers: headers,
 			});
-			return response.data;
 		} catch (error) {
-			console.log('api put error', error);
+			return Promise.reject(error);
 		}
-		return {} as TResponse;
 	}
 
 	async delete<TResponse>(endpoint: string): Promise<TResponse> {
 		try {
-			const response = await this.axios.delete<TResponse>(endpoint);
-			return response.data;
+			return await this.axios.delete(endpoint);
 		} catch (error) {
-			console.log('api post error', error);
+			return Promise.reject(error);
 		}
-		return {} as TResponse;
 	}
 
 	async get<TResponse>(endpoint: string, headers?: any): Promise<TResponse> {
@@ -116,11 +105,8 @@ export default class HttpClient implements IHttpClient {
 			return (
 				await this.axios.get<TResponse>(endpoint, { headers: headers })
 			).data;
-		} catch (error: any) {
-			console.log('api get error', error);
-
-			// window.alert(error.message);
+		} catch (error) {
+			return Promise.reject(error);
 		}
-		return {} as TResponse;
 	}
 }
