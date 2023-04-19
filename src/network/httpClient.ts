@@ -10,22 +10,25 @@ export interface ApiConfig {
 export interface IHttpClient {
 	post<TRequest, TResponse>(
 		endpoint: string, // api/tasks
-		param: TRequest // {description:'task-1'}
+		param: TRequest, // {description:'task-1'}
+		headers?: any
 	): Promise<TResponse>; // status 200 {id:1,description:'task-1'}
 
 	patch<TRequest, TResponse>(
 		endpoint: string,
-		param: TRequest
+		param: TRequest,
+		headers?: any
 	): Promise<TResponse>;
 
 	put<TRequest, TResponse>(
 		endpoint: string,
-		param: TRequest
+		param: TRequest,
+		headers?: any
 	): Promise<TResponse>;
 
 	delete<TResponse>(endpoint: string): Promise<TResponse>;
 
-	get<TResponse>(endpoint: string): Promise<TResponse>;
+	get<TResponse>(endpoint: string, headers?: any): Promise<TResponse>;
 }
 
 export default class HttpClient implements IHttpClient {
@@ -48,10 +51,13 @@ export default class HttpClient implements IHttpClient {
 
 	async post<TRequest, TResponse>(
 		endpoint: string,
-		param: TRequest
+		param: TRequest,
+		headers?: any
 	): Promise<TResponse> {
 		try {
-			const response = await this.axios.post<TResponse>(endpoint, param);
+			const response = await this.axios.post<TResponse>(endpoint, param, {
+				headers: headers,
+			});
 			return response.data;
 		} catch (error) {
 			console.log('api post error', error);
@@ -59,18 +65,40 @@ export default class HttpClient implements IHttpClient {
 		return {} as TResponse;
 	}
 
-	patch<TRequest, TResponse>(
+	async patch<TRequest, TResponse>(
 		endpoint: string,
-		param: TRequest
+		param: TRequest,
+		headers?: any
 	): Promise<TResponse> {
-		throw new Error('Method not implemented.');
+		try {
+			const response = await this.axios.patch<TResponse>(
+				endpoint,
+				param,
+				{
+					headers: headers,
+				}
+			);
+			return response.data;
+		} catch (error) {
+			console.log('api patch error');
+		}
+		return {} as TResponse;
 	}
 
-	put<TRequest, TResponse>(
+	async put<TRequest, TResponse>(
 		endpoint: string,
-		param: TRequest
+		param: TRequest,
+		headers?: any
 	): Promise<TResponse> {
-		throw new Error('Method not implemented.');
+		try {
+			const response = await this.axios.put<TResponse>(endpoint, param, {
+				headers: headers,
+			});
+			return response.data;
+		} catch (error) {
+			console.log('api put error');
+		}
+		return {} as TResponse;
 	}
 
 	async delete<TResponse>(endpoint: string): Promise<TResponse> {
@@ -83,9 +111,11 @@ export default class HttpClient implements IHttpClient {
 		return {} as TResponse;
 	}
 
-	async get<TResponse>(endpoint: string): Promise<TResponse> {
+	async get<TResponse>(endpoint: string, headers?: any): Promise<TResponse> {
 		try {
-			return (await this.axios.get<TResponse>(endpoint)).data;
+			return (
+				await this.axios.get<TResponse>(endpoint, { headers: headers })
+			).data;
 		} catch (error) {
 			console.log('api get error', error);
 		}
