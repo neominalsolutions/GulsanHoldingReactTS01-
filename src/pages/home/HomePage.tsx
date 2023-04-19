@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { TicketClient, Ticket } from '../../network/taskClient';
+import TicketCard from '../../components/TicketCard';
 
 const fetchTickets = async (signal: any) => {
 	// fetch default httpget çalışır.
@@ -19,15 +20,13 @@ const fetchTickets = async (signal: any) => {
 };
 
 function HomePage() {
-	const [counter, setCounter] = useState<number>(0);
-	const [c, setC] = useState<number>(0);
-
-	let tickets: Ticket[] = [];
+	// let tickets: Ticket[] = [];
+	const [tickets, setTickets] = useState<Ticket[]>([]);
 
 	const ticketClient = new TicketClient(); // ticketClient instance aldık bağlantık.
 
 	const getTickets = async () => {
-		tickets = await ticketClient.getTickets(); // client apidan veri çektik.
+		setTickets(await ticketClient.getTickets()); // client apidan veri çektik.
 		// setState ile arayüze basabiliriz.
 
 		// ticketClient
@@ -42,10 +41,6 @@ function HomePage() {
 		console.log('tickets', tickets);
 	};
 
-	const OnClick = () => {
-		alert('click');
-		setCounter(counter + 1);
-	};
 	useEffect(() => {
 		getTickets(); // veriyi çek.
 		// const interval = setInterval(() => {
@@ -76,16 +71,17 @@ function HomePage() {
 	// 	console.log('[] tanımı yapmadık her bir state değişiminde çalıştı');
 	// }); // state ne olduğu önemli değil herhangi bir state değişiminde çalış.
 
+	/*
 	useEffect(() => {
 		console.log('sadece counter state her değişimini takip edecektir');
 		// api istek atamdan arayüzde bir işlem yapmışım.yada interval timer gibi yapılar kullanmadım.
 		// api bağlanmıyporsak retur functiona gerek yok.
 	}, [c, counter]); // [state dependency diyoruz] // ya c yada counter state takip et, istedeiğimiz kadar state takibini yapabiliriz. [state1,state2] yazılan statelerin takibini yapar.
 
+	*/
 	return (
 		<div>
-			<h1>Anasayfa</h1>
-			<button onClick={OnClick}>Click Me</button>
+			<TicketCard tickets={tickets} />
 		</div>
 	);
 }
