@@ -21,3 +21,5 @@ Menu.tsx dosyasında örnek kullanım var
 4. Dinamik olarak sayfaların yönlendirme bazlı çalışması için <Outlet /> componenti kullanıyoruz.
 
 Layout.tsx dosyasında örneği mevcut.
+
+5. React Component içerisinde bir sayfaya yönlendirme yapmak için useNavigate() hook kullanırız. LoginPage sayfasında örneği var.
