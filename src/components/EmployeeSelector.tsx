@@ -14,8 +14,6 @@ export type EmployeProps = {
 
 function EmployeeSelector({ employees, onSelected }: EmployeProps) {
 	const onEmployeeSelect = (event: any) => {
-		console.log('id', event.target.value);
-		// componentin OnSelected Props'unu tetikle event gönderme yöntemi.
 		onSelected(event.target.value);
 	};
 

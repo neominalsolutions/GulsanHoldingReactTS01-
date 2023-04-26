@@ -3,7 +3,7 @@ import TicketCard from '../../components/TicketCard';
 import { Col, Row } from 'react-bootstrap';
 import EmployeeSelector from '../../components/EmployeeSelector';
 
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { hashQueryKey, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Employee, EmployeeClient } from '../../network/employeeClient';
 import { Ticket, TicketClient } from '../../network/taskClient';
 
@@ -33,10 +33,17 @@ function HomePage() {
 		}); // veri employee query üzerinden çalıştırıldığı için setState demeye gerek kalmadı.
 	}
 
-	function getAllTickets() {
+	// getTickets function state bağladık, empId key değişince yeniden refetch etti,
+	function getTickets() {
 		const result = useQuery({
-			queryKey: ['ticket-list'], // eğer employee apidan bir veri ekleme işlemi gerçekleşirse
-			queryFn: async () => await ticketClient.getTickets(),
+			queryKey: ['ticket', empId],
+			queryFn: async () => {
+				if (empId === 'tümü') {
+					return await ticketClient.getTickets();
+				} else {
+					return await ticketClient.getTicketsByCustomer(empId);
+				}
+			},
 			onSuccess: (data: Ticket[]) => {
 				setTickets(data);
 			},
@@ -48,34 +55,12 @@ function HomePage() {
 		return result;
 	}
 
-	// sayfa componentlerinde sayfaya yapılan isteği useQuery bağlayabiliriz ama bir method içerisinde değişen değere göre çağıramayız.
-	function getTicketsById(id: string) {
-		const result = useQuery({
-			queryKey: ['tickets-by-employee', id],
-			queryFn: async () => await ticketClient.getTicketsByCustomer(id),
-			onSuccess: (data: Ticket[]) => {
-				console.log('ticket-data', data);
-				setTickets(data);
-			},
-			onError: (error: any) => {
-				console.log('ticket-error', error);
-			},
-		}); // veri employee query üzerinden çalıştırıldığı için setState demeye gerek kalmadı.
-	}
-
 	const employeeResult = getAllEmployees();
-	let ticketResult = getAllTickets();
+	let ticketResult = getTickets();
 
 	const employeSelect = async (selection: string) => {
-		// method içinde hook çağıramayız
-		// getTicketsById(empId);
-		// hooklar sadece method içerisinde çağırılabilir
-
-		if (selection === 'tümü') {
-			setTickets(await ticketClient.getTickets());
-		} else {
-			setTickets(await ticketClient.getTicketsByCustomer(selection));
-		}
+		// state state değiştirik emp State değişiminde getTickets function çalıştı
+		setEmpId(selection);
 	};
 
 	return (
