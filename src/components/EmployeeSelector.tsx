@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 
 export interface IEmployee {
 	id: string;
@@ -23,20 +23,29 @@ function EmployeeSelector({ employees, onSelected }: EmployeProps) {
 	// employees && undefined değilse demek, scomponente object basarken mantıklı faka dizi varsa length kontrolü yapalım.
 
 	return (
-		<Form.Select
-			className='mt-3'
-			onChange={(event: any) => onEmployeeSelect(event)}
-			size='lg'>
-			{employees.map((emp: IEmployee) => {
-				return (
-					<option
-						key={emp.id}
-						value={emp.id}>
-						{emp.fullName}
-					</option>
-				);
-			})}
-		</Form.Select>
+		<Row className='p-4 me-5'>
+			<Col md={6}></Col>
+			<Col md={6}>
+				<label>
+					<b className='text-secondary'>Çalışanlar</b>
+				</label>
+				<Form.Select
+					className='mt-3'
+					onChange={(event: any) => onEmployeeSelect(event)}
+					size='lg'>
+					<option value={'tümü'}>Tümü</option>
+					{employees.map((emp: IEmployee) => {
+						return (
+							<option
+								key={emp.id}
+								value={emp.id}>
+								{emp.fullName}
+							</option>
+						);
+					})}
+				</Form.Select>
+			</Col>
+		</Row>
 	);
 }
 

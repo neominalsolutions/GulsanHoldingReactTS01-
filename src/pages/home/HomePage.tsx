@@ -76,11 +76,15 @@ function HomePage() {
 
 	*/
 
-	const employeSelect = async (id: string) => {
-		alert('seçilen' + id);
+	const employeSelect = async (selection: string) => {
 		// git ticketları idsine göre filterele state değiştir.
-		setTickets(await ticketClient.getTicketsByCustomer(id));
-		// apiden çek state güncelle.
+
+		// api state güncelle
+		if (selection == 'tümü') {
+			setTickets(await ticketClient.getTickets());
+		} else {
+			setTickets(await ticketClient.getTicketsByCustomer(selection));
+		}
 	};
 	return (
 		<div>
@@ -88,12 +92,14 @@ function HomePage() {
 				<Col>
 					{employees.length > 0 ? (
 						<EmployeeSelector
-							onSelected={async (id: string) => {
-								setTickets(
-									await ticketClient.getTicketsByCustomer(id)
-								);
-							}}
-							//onSelected={async (id: string) => employeSelect(id)}
+							// onSelected={async (id: string) => {
+							// 	setTickets(
+							// 		await ticketClient.getTicketsByCustomer(id)
+							// 	);
+							// }}
+							onSelected={async (selection: string) =>
+								employeSelect(selection)
+							}
 							employees={employees}
 						/>
 					) : (

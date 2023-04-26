@@ -9,10 +9,10 @@ import { Container, Row } from 'react-bootstrap';
 function Layout() {
 	return (
 		<div>
-			<Header text='Gülsan Holding' />
+			<Header text='React TS 18.2.0 version' />
 			<Menu />
 
-			<Container style={{ height: '80vh' }}>
+			<Container style={{ height: '100vh' }}>
 				{/* dinamik içeriğin değişeceği kısmı outlet olarak iaşaretledik. sayfalar değişince buraya ilgili sayfa componentleri gelecek. */}
 				<Outlet />
 			</Container>
@@ -29,8 +29,10 @@ function Layout() {
 							width: '100%',
 							bottom: '0',
 						}}>
-						<p>Alt Bilgi &copy Gulsan Holding</p>
-						<span>Yıl: {new Date().getFullYear()}</span>
+						<p>
+							<span>{'\u00a9'}</span> Gulsan Holding
+						</p>
+						<span>{new Date().getFullYear()}</span>
 					</Row>
 				</Footer>
 			</Container>

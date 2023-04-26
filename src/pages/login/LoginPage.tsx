@@ -5,6 +5,7 @@ import {
 	LoginResult,
 } from '../../network/loginClient';
 import { useNavigate } from 'react-router-dom';
+import { Col, Row } from 'react-bootstrap';
 
 function LoginPage() {
 	const navigate = useNavigate(); // react-router-dom dana gelen hook ile ts den yönlendirme yapılabilir
@@ -31,44 +32,53 @@ function LoginPage() {
 	// formu gönderirken html5 validayonlara takılmaması için noValidate yazık
 
 	return (
-		<div className='container p-5'>
-			<h1> Oturum Açma Ekranı </h1>
-			<form
-				method='post'
-				onSubmit={onSubmit}
-				noValidate>
-				<input
-					defaultValue={formState?.email}
-					className='form-control'
-					type='email'
-					placeholder='email'
-					onChange={(event) =>
-						setFormState({
-							...formState,
-							email: event.target.value,
-						})
-					}
-				/>
-				<br></br>
-				<input
-					defaultValue={formState.password}
-					className='form-control'
-					type='password'
-					placeholder='password'
-					onChange={(event: any) =>
-						setFormState({
-							...formState,
-							password: event.target.value,
-						})
-					}
-				/>
-				<br></br>
-				<input
-					className='btn btn-success'
-					type='submit'
-				/>
-			</form>
-		</div>
+		<Row>
+			<Col
+				className='m-auto'
+				md={4}>
+				<div className='container p-5'>
+					<h1> Giriş </h1>
+					<form
+						method='post'
+						onSubmit={onSubmit}
+						noValidate>
+						<input
+							defaultValue={formState?.email}
+							className='form-control'
+							type='email'
+							placeholder='email'
+							onChange={(event) =>
+								setFormState({
+									...formState,
+									email: event.target.value,
+								})
+							}
+						/>
+						<br></br>
+						<input
+							defaultValue={formState.password}
+							className='form-control'
+							type='password'
+							placeholder='password'
+							onChange={(event: any) =>
+								setFormState({
+									...formState,
+									password: event.target.value,
+								})
+							}
+						/>
+						<br></br>
+						<div className='d-flex flex-row'>
+							<input
+								className='btn btn-success ms-auto'
+								type='submit'
+								value='Oturum Aç'
+							/>
+						</div>
+					</form>
+				</div>
+			</Col>
+		</Row>
 	);
 }
 

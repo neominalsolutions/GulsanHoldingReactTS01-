@@ -10,7 +10,7 @@ function Header({ text, content = 'Content' }: HeaderProps) {
 	return (
 		<Container
 			fluid
-			style={{ backgroundColor: 'aliceblue', color: 'blue' }}>
+			style={{ backgroundColor: 'GrayText', color: 'white' }}>
 			<Row>
 				<h5>{text}</h5>
 				{/* <p>{content}</p> */}
