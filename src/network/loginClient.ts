@@ -48,11 +48,12 @@ export class LoginClient implements ILoginClient {
 			localStorage.setItem('refreshToken', token.refreshToken);
 			return { isSucceded: true } as LoginResult;
 		} catch (error: any) {
-			console.log('error', error);
-			return {
+			// isError durumunu React Query yakalasın diye reject ettik
+			console.log('axs-erorr', error);
+			return Promise.reject({
 				isSucceded: false,
-				errorMessage: error.response.data.errors, // hatalar backend error middlewareden error.response.data.errors altında geliyor
-			} as LoginResult;
+				errorMessage: error.response.data.errors,
+			} as LoginResult);
 		}
 	}
 }

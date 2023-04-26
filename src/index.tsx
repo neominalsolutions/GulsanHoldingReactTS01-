@@ -4,13 +4,22 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+// Tüm uygulamayı queryclient provider ile sarmallarız. Böyle tüm uygulama genelinde bütün hata mesajları tüm asenkron işlemler react-query ile sarmallanır, başarılı ve hata durumlarını yakalama şansımız olur.
+// daha sonra post,put,delete gibi işlemler için mutation veri yakalama fetch işlemleri için ise query kullanırız. Tüm network akışı belirli bir formatta sarmallanmış olur.
+
+// Create a client
+const queryClient = new QueryClient();
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
 	<BrowserRouter>
-		<App />
+		<QueryClientProvider client={queryClient}>
+			<App />
+		</QueryClientProvider>
 	</BrowserRouter>
 	// <React.StrictMode>
 	// sadece development da test amaçlı açık olan bir mod bu mod yüzünden component içerisindeki hooklar iki kez tetiklenir. ama production modda burası kapalı.

@@ -5,6 +5,8 @@ import AboutPage from './pages/about/AboutPage';
 import HomePage from './pages/home/HomePage';
 import Promises from './pages/promises/Promises';
 import LoginPage from './pages/login/LoginPage';
+import NewLoginPage from './pages/login/NewLoginPage';
+
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -35,6 +37,10 @@ function App() {
 		{
 			path: '/account/login',
 			element: <LoginPage />,
+		},
+		{
+			path: '/account/new-login',
+			element: <NewLoginPage />,
 		},
 		{
 			path: '/admin', // admin routes
