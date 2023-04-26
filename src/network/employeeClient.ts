@@ -28,6 +28,7 @@ export class EmployeeClient implements IEmployeeClient {
 	}
 	getEmployees(): Promise<Employee[]> {
 		return this.httpClient.get(this.endpoint);
+		// return this.httpClient.get(this.endpoint + "1");
 	}
 	getEmployeeById(id: string): Promise<Employee[]> {
 		return this.httpClient.get(`${this.endpoint}/${id}`);

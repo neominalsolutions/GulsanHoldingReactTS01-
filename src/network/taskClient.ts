@@ -38,6 +38,7 @@ export class TicketClient implements ITicketClient {
 	}
 	getTicketsByCustomer(id: string): Promise<Ticket[]> {
 		// api/tickets?employeeId=1
+		console.log('id', id);
 		return this.httpClient.get(`${this.endpoint}/${id}`);
 	}
 }
