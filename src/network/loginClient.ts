@@ -15,6 +15,7 @@ export interface LoginResult {
 
 import { AxiosHeaders } from 'axios';
 import HttpClient, { IHttpClient } from './httpClient';
+import { LocalStorageService } from '../storage/LocalStorage';
 
 // apidaki hangi uçlarla haberleşeceğimiz belirledim.
 export interface ILoginClient {
@@ -44,8 +45,9 @@ export class LoginClient implements ILoginClient {
 				this.endpoint,
 				param
 			);
-			localStorage.setItem('accessToken', token.accessToken);
-			localStorage.setItem('refreshToken', token.refreshToken);
+			console.log('token', token);
+			LocalStorageService.setAccessToken(token.accessToken);
+			LocalStorageService.setRefreshToken(token.refreshToken);
 			return { isSucceded: true } as LoginResult;
 		} catch (error: any) {
 			// isError durumunu React Query yakalasın diye reject ettik

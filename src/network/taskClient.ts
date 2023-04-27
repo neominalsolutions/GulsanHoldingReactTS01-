@@ -32,9 +32,7 @@ export class TicketClient implements ITicketClient {
 	}
 
 	getTickets(): Promise<Ticket[]> {
-		return this.httpClient.get(this.endpoint, {
-			Authorization: 'Bearer xdsadsad',
-		});
+		return this.httpClient.get(this.endpoint);
 	}
 	getTicketsByCustomer(id: string): Promise<Ticket[]> {
 		return this.httpClient.get(`${this.endpoint}/${id}`);
