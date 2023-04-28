@@ -14,6 +14,10 @@ function Menu() {
 			url: '/',
 		},
 		{
+			text: 'Anasayfa Yeni',
+			url: '/home',
+		},
+		{
 			text: 'Hakkımızda',
 			url: '/about',
 		},

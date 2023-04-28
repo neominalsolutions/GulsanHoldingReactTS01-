@@ -6,6 +6,7 @@ import HomePage from './pages/home/HomePage';
 import Promises from './pages/promises/Promises';
 import LoginPage from './pages/login/LoginPage';
 import NewLoginPage from './pages/login/NewLoginPage';
+import NewHomePage from './pages/home/NewHomePage';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -21,7 +22,7 @@ function App() {
 				},
 				{
 					path: '/home',
-					element: <HomePage />,
+					element: <NewHomePage />,
 				},
 				{
 					path: '/about',
