@@ -28,6 +28,10 @@ function Menu() {
 			text: 'Promise Örneği',
 			url: '/promises',
 		},
+		{
+			text: 'Context API Örneği',
+			url: '/counter',
+		},
 	];
 
 	return (

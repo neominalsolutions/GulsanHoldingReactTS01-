@@ -7,6 +7,7 @@ import Promises from './pages/promises/Promises';
 import LoginPage from './pages/login/LoginPage';
 import NewLoginPage from './pages/login/NewLoginPage';
 import NewHomePage from './pages/home/NewHomePage';
+import Counter from './pages/counter/Counter';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -31,6 +32,10 @@ function App() {
 				{
 					path: '/promises',
 					element: <Promises />,
+				},
+				{
+					path: '/counter',
+					element: <Counter />,
 				},
 			],
 		},
