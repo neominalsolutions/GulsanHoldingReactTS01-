@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Row } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import { RootState } from '../slices/Store';
 
 export type HeaderProps = {
 	text: string; // required

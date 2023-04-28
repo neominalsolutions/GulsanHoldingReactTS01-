@@ -4,6 +4,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AbilityContext, Can } from '../casl/Can';
 import { LocalStorageService } from '../storage/LocalStorage';
 import { updateAbility } from '../casl/Ability';
+import { RootState } from '../slices/Store';
+import { useSelector } from 'react-redux';
+import { Ticket } from '../network/taskClient';
 
 export interface IMenu {
 	text: string;
@@ -13,6 +16,10 @@ export interface IMenu {
 function Menu() {
 	const ability = useContext(AbilityContext);
 	const navigate = useNavigate();
+
+	const selectedTickets = useSelector(
+		(state: RootState) => state.ticketState.items
+	);
 
 	const menuList: Array<IMenu> = [
 		{
@@ -46,16 +53,19 @@ function Menu() {
 							);
 						})}
 
-						<NavDropdown
-							title='Yapılacaklar'
-							id='basic-nav-dropdown'>
-							<NavDropdown.Item>
-								<div>Görev 1</div>
-							</NavDropdown.Item>
-							<NavDropdown.Item>
-								<div>Görev 2</div>
-							</NavDropdown.Item>
-						</NavDropdown>
+						{selectedTickets && (
+							<NavDropdown
+								title={`${selectedTickets.length} items`}
+								id='basic-nav-dropdown'>
+								{selectedTickets.map((ticket: Ticket) => {
+									return (
+										<NavDropdown.Item>
+											<div>{ticket.description}</div>
+										</NavDropdown.Item>
+									);
+								})}
+							</NavDropdown>
+						)}
 					</Nav>
 				</Navbar.Collapse>
 

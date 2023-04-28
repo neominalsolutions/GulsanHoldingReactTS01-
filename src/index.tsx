@@ -7,6 +7,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AbilityContext } from './casl/Can';
 import { Ability } from '@casl/ability';
+import { Provider } from 'react-redux';
+import { store } from './slices/Store';
 
 // Tüm uygulamayı queryclient provider ile sarmallarız. Böyle tüm uygulama genelinde bütün hata mesajları tüm asenkron işlemler react-query ile sarmallanır, başarılı ve hata durumlarını yakalama şansımız olur.
 // daha sonra post,put,delete gibi işlemler için mutation veri yakalama fetch işlemleri için ise query kullanırız. Tüm network akışı belirli bir formatta sarmallanmış olur.
@@ -20,11 +22,15 @@ const root = ReactDOM.createRoot(
 );
 root.render(
 	<BrowserRouter>
-		<AbilityContext.Provider value={ability}>
-			<QueryClientProvider client={queryClient}>
-				<App />
-			</QueryClientProvider>
-		</AbilityContext.Provider>
+		<Provider store={store}>
+			<AbilityContext.Provider value={ability}>
+				<QueryClientProvider client={queryClient}>
+					<React.Suspense fallback={<>... Loading</>}>
+						<App />
+					</React.Suspense>
+				</QueryClientProvider>
+			</AbilityContext.Provider>
+		</Provider>
 	</BrowserRouter>
 
 	// <React.StrictMode>

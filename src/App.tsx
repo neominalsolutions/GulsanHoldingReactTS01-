@@ -1,16 +1,22 @@
 import Layout from './layout/Layout';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { RouteObject, useRoutes } from 'react-router-dom';
-import AboutPage from './pages/about/AboutPage';
-import HomePage from './pages/home/HomePage';
-import Promises from './pages/promises/Promises';
-import LoginPage from './pages/login/LoginPage';
-import NewLoginPage from './pages/login/NewLoginPage';
 import { updateAbility } from './casl/Ability';
 import { LocalStorageService } from './storage/LocalStorage';
 import { AbilityContext } from './casl/Can';
-import { useContext } from 'react';
+import { lazy, useContext } from 'react';
 import { Can } from '@casl/react';
+import AuthGuard from './guards/AuthGuard';
+
+const HomePage = lazy(() => import('./pages/home/HomePage'));
+
+const AboutPage = lazy(() => import('./pages/about/AboutPage'));
+
+const Promises = lazy(() => import('./pages/promises/Promises'));
+
+const LoginPage = lazy(() => import('./pages/login/LoginPage'));
+
+const NewLoginPage = lazy(() => import('./pages/login/NewLoginPage'));
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
@@ -56,7 +62,11 @@ function App() {
 		},
 		{
 			path: '/admin', // admin routes
-			element: <>Admin Panel</>,
+			element: (
+				<AuthGuard>
+					<>Admin Panel</>
+				</AuthGuard>
+			),
 			children: [
 				{
 					path: '/admin/users',
