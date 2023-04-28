@@ -21,10 +21,6 @@ function Menu() {
 			text: 'Promise Örneği',
 			url: '/promises',
 		},
-		{
-			text: 'Oturum Aç',
-			url: '/account/login',
-		},
 	];
 
 	return (
@@ -68,6 +64,14 @@ function Menu() {
 								style={{ textDecoration: 'none' }}
 								to={'/account/login'}>
 								Oturum Aç
+							</Link>
+						</NavDropdown.Item>
+
+						<NavDropdown.Item>
+							<Link
+								style={{ textDecoration: 'none' }}
+								to={'/account/new-login'}>
+								Oturum Aç (Yeni)
 							</Link>
 						</NavDropdown.Item>
 						<NavDropdown.Item>

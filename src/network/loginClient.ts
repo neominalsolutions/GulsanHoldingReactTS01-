@@ -49,13 +49,21 @@ export class LoginClient implements ILoginClient {
 
 			localStorage.setItem('accessToken', token.accessToken);
 			localStorage.setItem('refreshToken', token.refreshToken);
-			return { isSucceded: true } as LoginResult;
+			// başarılı işlemlerin sonuçlarını Promise.resolve ile döndürelim
+			return Promise.resolve({ isSucceded: true } as LoginResult);
 		} catch (error: any) {
 			console.log('error', error);
-			return {
+			// return {
+			// 	isSucceded: false,
+			// 	errorMessage: error.response.data.errors, // hatalar backend error middlewareden error.response.data.errors altında geliyor
+			// } as LoginResult;
+
+			// Not hata durumlarını return ederken Promise.reject ile return edelim yok OnError methodlarına hatalar düşmez bunun yerine OnSuccess methodları tetiklenir. Buda yanlış bir kullanıma sebebiyet verir.
+
+			return Promise.reject({
 				isSucceded: false,
 				errorMessage: error.response.data.errors, // hatalar backend error middlewareden error.response.data.errors altında geliyor
-			} as LoginResult;
+			} as LoginResult);
 		}
 	}
 }
