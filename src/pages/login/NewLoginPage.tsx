@@ -7,7 +7,7 @@ import {
 } from '../../network/loginClient';
 import { Alert, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation } from 'react-query';
 
 function NewLoginPage() {
 	// register net core ortamındaki asp-for yada html name alanı, forma hangi field register edileceğini yönetir.
@@ -68,11 +68,15 @@ function NewLoginPage() {
 		},
 	});
 
+	//const queryClient = new QueryClient();
+
 	const onSubmit: SubmitHandler<LoginModel> = async (formValue) => {
 		console.log('formValue', formValue);
 
 		// mutation üzerinden post,put,delete,patch çağırma işlemlerinde aşağıdaki gibi yönetiyoruz.
 		await loginMutation.mutateAsync(formValue);
+		// git todo-list cache key değerini boz yeniden refecth et.
+		// queryClient.invalidateQueries(['todo-list']);
 
 		// if (result.isSucceded) {
 		// 	navigate('/');

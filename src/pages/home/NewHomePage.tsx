@@ -29,16 +29,16 @@ function NewHomePage() {
 			onError: (error: any) => {
 				console.log('emp-error', error);
 			},
-			refetchInterval: 5000, // 5000 ms 5 sn de bir güncelleneceği anlamına gelir bunu arkaplanda kendisi yönetiyor.
+			//refetchInterval: 5000, // 5000 ms 5 sn de bir güncelleneceği anlamına gelir bunu arkaplanda kendisi yönetiyor.
 		});
 	}
 
 	function getTickets() {
 		return useQuery({
 			queryKey: ['ticket-list', empId], // unique bir key bu key cache için önemli eğer cache bozup bir daha fetch edecek isek bu durumda queryClient üzerinden bir invalidQueryKey() methodu çağırırız.
-			queryFn: async () => {
+			queryFn: async ({ signal }) => {
 				if (empId == 'tümü') {
-					return await ticketClient.getTickets();
+					return await ticketClient.getTickets({ signal });
 				} else {
 					return await ticketClient.getTicketsByCustomer(empId);
 				}
@@ -63,10 +63,13 @@ function NewHomePage() {
 
 	const employeSelect = async (selection: string) => {
 		// empId state güncelledik. useQuery bu güncel empId üzerinden cache bozar ve yeni refetch işlemi auto gerçekleştirir.
+		// alert(selection);
 		setEmpId(selection);
+		// employeeQuery.refetch();
 	};
 	return (
 		<div>
+			selection : {empId}
 			<Row>
 				<Col>
 					{employeeQuery.isFetched && employeeQuery.isSuccess && (
