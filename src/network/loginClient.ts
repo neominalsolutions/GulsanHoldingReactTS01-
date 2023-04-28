@@ -44,6 +44,9 @@ export class LoginClient implements ILoginClient {
 				this.endpoint,
 				param
 			);
+
+			console.log('token', token);
+
 			localStorage.setItem('accessToken', token.accessToken);
 			localStorage.setItem('refreshToken', token.refreshToken);
 			return { isSucceded: true } as LoginResult;

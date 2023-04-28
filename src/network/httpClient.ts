@@ -55,9 +55,11 @@ export default class HttpClient implements IHttpClient {
 		headers?: any
 	): Promise<TResponse> {
 		try {
-			return await this.axios.post(endpoint, param, {
-				headers: headers,
-			});
+			return (
+				await this.axios.post<TResponse>(endpoint, param, {
+					headers: headers,
+				})
+			).data;
 		} catch (error) {
 			console.log('error', error);
 			return Promise.reject(error); // Hata durumlarını servis üzerinden yakalamak için Promise.reject(error) kodunu implemente etmediğimizden catch bloguna düşememişiz. burası tüm methodlardan güncelllendi
@@ -70,9 +72,11 @@ export default class HttpClient implements IHttpClient {
 		headers?: any
 	): Promise<TResponse> {
 		try {
-			return await this.axios.patch(endpoint, param, {
-				headers: headers,
-			});
+			return (
+				await this.axios.patch<TResponse>(endpoint, param, {
+					headers: headers,
+				})
+			).data;
 		} catch (error) {
 			return Promise.reject(error);
 		}
@@ -84,9 +88,11 @@ export default class HttpClient implements IHttpClient {
 		headers?: any
 	): Promise<any> {
 		try {
-			return await this.axios.put<TResponse>(endpoint, param, {
-				headers: headers,
-			});
+			return (
+				await this.axios.put<TResponse>(endpoint, param, {
+					headers: headers,
+				})
+			).data;
 		} catch (error) {
 			return Promise.reject(error);
 		}
@@ -94,7 +100,7 @@ export default class HttpClient implements IHttpClient {
 
 	async delete<TResponse>(endpoint: string): Promise<TResponse> {
 		try {
-			return await this.axios.delete(endpoint);
+			return (await this.axios.delete(endpoint)).data;
 		} catch (error) {
 			return Promise.reject(error);
 		}
