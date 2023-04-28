@@ -1,6 +1,7 @@
 // HTTP VERB isteklerini merkezi olarak burası yönetsin.
 
 import axios, { AxiosError, AxiosHeaders, AxiosInstance } from 'axios';
+import { LocalStorageService } from '../storage/LocalStorageService';
 
 export interface ApiConfig {
 	baseUrl: string; //  https://localhost:7044/
@@ -47,6 +48,29 @@ export default class HttpClient implements IHttpClient {
 
 	constructor(apiConfig: ApiConfig) {
 		this.axios = this.createAxiosClient(apiConfig);
+		this.UseIntecptors();
+	}
+
+	private UseIntecptors(): void {
+		this.axios.interceptors.request.use(
+			(response) => {
+				console.log('request-interceptor', response);
+				// request atarken header accessToken değerine göre güncelleyeceğiz.
+
+				// token varsa otomatik olarak accessToken header'a tüm isteklerde gömdük.
+				if (LocalStorageService.getAccessToken() != null) {
+					response.headers[
+						'Authorization'
+					] = `Bearer ${LocalStorageService.getAccessToken()}`;
+				}
+
+				return response;
+			},
+			(err) => {
+				// request esnasında bir hata alırsak buraya düşücez
+				console.log('err', err);
+			}
+		);
 	}
 
 	async post<TRequest, TResponse>(

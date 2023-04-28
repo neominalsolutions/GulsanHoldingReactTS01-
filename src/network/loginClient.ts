@@ -15,6 +15,7 @@ export interface LoginResult {
 
 import { AxiosHeaders } from 'axios';
 import HttpClient, { IHttpClient } from './httpClient';
+import { LocalStorageService } from '../storage/LocalStorageService';
 
 // apidaki hangi uçlarla haberleşeceğimiz belirledim.
 export interface ILoginClient {
@@ -47,9 +48,9 @@ export class LoginClient implements ILoginClient {
 
 			console.log('token', token);
 
-			localStorage.setItem('accessToken', token.accessToken);
-			localStorage.setItem('refreshToken', token.refreshToken);
-			// başarılı işlemlerin sonuçlarını Promise.resolve ile döndürelim
+			LocalStorageService.setAccessToken(token.accessToken);
+			LocalStorageService.setRefreshToken(token.refreshToken);
+
 			return Promise.resolve({ isSucceded: true } as LoginResult);
 		} catch (error: any) {
 			console.log('error', error);

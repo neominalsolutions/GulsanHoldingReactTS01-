@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { LocalStorageService } from '../storage/LocalStorageService';
 
 export interface IMenu {
 	text: string;
@@ -8,6 +9,8 @@ export interface IMenu {
 }
 
 function Menu() {
+	const navigate = useNavigate();
+
 	const menuList: Array<IMenu> = [
 		{
 			text: 'Anasayfa',
@@ -80,7 +83,10 @@ function Menu() {
 						</NavDropdown.Item>
 						<NavDropdown.Item>
 							<div
-								onClick={() => {}}
+								onClick={() => {
+									LocalStorageService.clearTokens();
+									navigate('/account/new-login');
+								}}
 								className='link text-primary'>
 								Oturumu Kapat
 							</div>
