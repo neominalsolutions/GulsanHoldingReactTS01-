@@ -7,6 +7,7 @@ import { updateAbility } from '../casl/Ability';
 import { RootState } from '../slices/Store';
 import { useSelector } from 'react-redux';
 import { Ticket } from '../network/taskClient';
+import { useTranslation } from 'react-i18next';
 
 export interface IMenu {
 	text: string;
@@ -16,6 +17,7 @@ export interface IMenu {
 function Menu() {
 	const ability = useContext(AbilityContext);
 	const navigate = useNavigate();
+	const { t, i18n } = useTranslation();
 
 	const selectedTickets = useSelector(
 		(state: RootState) => state.ticketState.items
@@ -23,15 +25,15 @@ function Menu() {
 
 	const menuList: Array<IMenu> = [
 		{
-			text: 'Anasayfa',
+			text: t('menu.home'),
 			url: '/',
 		},
 		{
-			text: 'Hakkımızda',
+			text: t('menu.about'),
 			url: '/about',
 		},
 		{
-			text: 'Promise Örneği',
+			text: t('menu.promise'),
 			url: '/promises',
 		},
 	];
@@ -52,6 +54,23 @@ function Menu() {
 								</Nav.Link>
 							);
 						})}
+
+						<NavDropdown
+							title={t('menu.languages', { count: 3 })}
+							id='basic-nav-dropdown'>
+							<NavDropdown.Item
+								onClick={() => {
+									i18n.changeLanguage('tr-TR');
+								}}>
+								<div>tr-TR</div>
+							</NavDropdown.Item>
+							<NavDropdown.Item
+								onClick={() => {
+									i18n.changeLanguage('en-US');
+								}}>
+								<div>en-TR</div>
+							</NavDropdown.Item>
+						</NavDropdown>
 
 						{selectedTickets && (
 							<NavDropdown

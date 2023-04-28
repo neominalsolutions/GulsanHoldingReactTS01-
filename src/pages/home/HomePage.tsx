@@ -6,8 +6,10 @@ import EmployeeSelector from '../../components/EmployeeSelector';
 import { hashQueryKey, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Employee, EmployeeClient } from '../../network/employeeClient';
 import { Ticket, TicketClient } from '../../network/taskClient';
+import { useTranslation } from 'react-i18next';
 
 function HomePage() {
+	const { t, i18n } = useTranslation();
 	const queryClient = useQueryClient();
 
 	const [empoloyees, setEmployees] = useState<Employee[]>([]);
