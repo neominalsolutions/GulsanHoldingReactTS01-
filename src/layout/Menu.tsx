@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { LocalStorageService } from '../storage/LocalStorageService';
+import { AbilityContext, Can } from '../casl/Can';
 
 export interface IMenu {
 	text: string;
@@ -10,6 +11,7 @@ export interface IMenu {
 
 function Menu() {
 	const navigate = useNavigate();
+	const ability = useContext(AbilityContext);
 
 	const menuList: Array<IMenu> = [
 		{
@@ -70,31 +72,51 @@ function Menu() {
 					<NavDropdown
 						title='Hesap'
 						id='basic-nav-dropdown'>
-						<NavDropdown.Item>
-							<Link
-								style={{ textDecoration: 'none' }}
-								to={'/account/login'}>
-								Oturum Aç
-							</Link>
-						</NavDropdown.Item>
+						{ability.can('unauthorized') && (
+							<NavDropdown.Item>
+								<Link
+									style={{ textDecoration: 'none' }}
+									to={'/account/login'}>
+									Oturum Aç
+								</Link>
+							</NavDropdown.Item>
+						)}
+						{ability.can('unauthorized') && (
+							<NavDropdown.Item>
+								<Link
+									style={{ textDecoration: 'none' }}
+									to={'/account/new-login'}>
+									Oturum Aç (Yeni)
+								</Link>
+							</NavDropdown.Item>
+						)}
 
-						<NavDropdown.Item>
-							<Link
-								style={{ textDecoration: 'none' }}
-								to={'/account/new-login'}>
-								Oturum Aç (Yeni)
-							</Link>
-						</NavDropdown.Item>
-						<NavDropdown.Item>
-							<div
-								onClick={() => {
-									LocalStorageService.clearTokens();
-									navigate('/account/new-login');
-								}}
-								className='link text-primary'>
-								Oturumu Kapat
-							</div>
-						</NavDropdown.Item>
+						{ability.can('authorized') && (
+							<NavDropdown.Item>
+								<div
+									onClick={() => {
+										LocalStorageService.clearTokens();
+										navigate('/account/new-login');
+									}}
+									className='link text-primary'>
+									Oturumu Kapat
+								</div>
+							</NavDropdown.Item>
+						)}
+						<Can
+							I='login'
+							an='adminPanel'
+							ability={ability}>
+							<NavDropdown.Item>
+								<div
+									onClick={() => {
+										navigate('/admin');
+									}}
+									className='link text-primary'>
+									Yönetici Girişi
+								</div>
+							</NavDropdown.Item>
+						</Can>
 					</NavDropdown>
 				</Navbar.Collapse>
 			</Container>

@@ -8,8 +8,19 @@ import LoginPage from './pages/login/LoginPage';
 import NewLoginPage from './pages/login/NewLoginPage';
 import NewHomePage from './pages/home/NewHomePage';
 import Counter from './pages/counter/Counter';
+import { LocalStorageService } from './storage/LocalStorageService';
+import { useContext } from 'react';
+import { AbilityContext } from './casl/Can';
+import { updateAbility } from './casl/Ability';
 
 function App() {
+	// eğer ki tarayıcı refreshlenirse bu durumda kullanıcı hala oturumu kapamadıysa git kullanıcın localstorage user-info bilgilerinden yeniden uygulama genelindeki yeteneklerinmi güncelle.
+	const ability = useContext(AbilityContext);
+	const user = LocalStorageService.getUserInfo();
+
+	// yeteneklerinmi güncelle.
+	updateAbility(ability, user);
+
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
 	// useRoutes hook artık uygulamanın clientside route tanımlarını okumasını sağlarız.
 	const routes: RouteObject[] = [

@@ -6,6 +6,8 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { CounterProvider } from './context/CounterContext';
+import { AbilityContext } from './casl/Can';
+import { Ability } from '@casl/ability';
 
 const queryClient = new QueryClient(); // uygulamanın react query statelerini tüm uygulama genelinde desteklemesi için QueryClient sınıfından instace alıp QueryClientProvider olarak tüm uygulama sarmallıyoruz.
 
@@ -14,13 +16,18 @@ const queryClient = new QueryClient(); // uygulamanın react query statelerini t
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
+
+const ability = new Ability();
+
 root.render(
 	<BrowserRouter>
-		<CounterProvider>
-			<QueryClientProvider client={queryClient}>
-				<App />
-			</QueryClientProvider>
-		</CounterProvider>
+		<AbilityContext.Provider value={ability}>
+			<CounterProvider>
+				<QueryClientProvider client={queryClient}>
+					<App />
+				</QueryClientProvider>
+			</CounterProvider>
+		</AbilityContext.Provider>
 	</BrowserRouter>
 
 	// <React.StrictMode>

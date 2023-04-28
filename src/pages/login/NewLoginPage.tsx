@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import {
 	LoginClient,
@@ -8,13 +8,16 @@ import {
 import { Alert, Col, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { QueryClient, useMutation } from 'react-query';
+import { updateAbility } from '../../casl/Ability';
+import { AbilityContext } from '../../casl/Can';
+import { LocalStorageService } from '../../storage/LocalStorageService';
 
 function NewLoginPage() {
 	// register net core ortamındaki asp-for yada html name alanı, forma hangi field register edileceğini yönetir.
 	// handleSubmit formun post edilmesini yönetir.
 	// watch formdaki alanların valuelarını takip etmek için kullanılır
 	// formState => formun güncel state verir.
-
+	const ability = useContext(AbilityContext);
 	const loginService = new LoginClient();
 	const navigate = useNavigate(); // hooklar sadece function body içerisinde çağırılırlar.
 
@@ -46,6 +49,7 @@ function NewLoginPage() {
 			// formData post işlemi sonunda alacağımız result bilgisi
 			console.log('onSuccess', result, formData);
 			if (result.isSucceded) {
+				updateAbility(ability, LocalStorageService.getUserInfo());
 				navigate('/');
 			}
 		},
