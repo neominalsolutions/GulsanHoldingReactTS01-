@@ -7,6 +7,7 @@ import { AbilityContext } from './casl/Can';
 import { lazy, useContext } from 'react';
 import { Can } from '@casl/react';
 import AuthGuard from './guards/AuthGuard';
+import FileUploadPage from './pages/files/FileUploadPage';
 
 const HomePage = lazy(() => import('./pages/home/HomePage'));
 
@@ -49,6 +50,10 @@ function App() {
 				{
 					path: '/promises',
 					element: <Promises />,
+				},
+				{
+					path: '/file-upload',
+					element: <FileUploadPage />,
 				},
 			],
 		},

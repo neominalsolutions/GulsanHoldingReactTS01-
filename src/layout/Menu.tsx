@@ -36,6 +36,10 @@ function Menu() {
 			text: t('menu.promise'),
 			url: '/promises',
 		},
+		{
+			text: t('menu.fileUpload'),
+			url: '/file-upload',
+		},
 	];
 
 	return (

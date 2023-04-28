@@ -5,6 +5,7 @@ export default {
 			about: 'About',
 			promise: 'Promise',
 			languages: 'Languages {{count}}',
+      fileUpload:'File Upload'
 		},
 	},
 };

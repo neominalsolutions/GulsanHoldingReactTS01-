@@ -10,4 +10,6 @@ function AboutPage() {
 	);
 }
 
+// https://localhost:7044/api/Files/upload
+
 export default AboutPage;

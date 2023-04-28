@@ -5,6 +5,7 @@ export default {
 			about: 'Hakkımızda',
 			promise: 'Promise',
 			languages: 'Diller {{count}}',
+			fileUpload: 'Dosya Yükleme',
 		},
 	},
 };
