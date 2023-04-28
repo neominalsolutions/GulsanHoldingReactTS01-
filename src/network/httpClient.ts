@@ -71,6 +71,47 @@ export default class HttpClient implements IHttpClient {
 				console.log('err', err);
 			}
 		);
+
+		// refresh-token için gerekli implementasyonları yapalım.
+
+		this.axios.interceptors.response.use(
+			(response) => {
+				console.log('response-int', response);
+				return response;
+			},
+			(error: any) => {
+				const originalRequest = error.config; // original request
+
+				// tüm uygulamalardaki response isteklerini bu middleware ile kendi formatınıza dönüştürebileceiğimiz merkezi bir yer.
+
+				if (error.response.status === 401) {
+					const refreshToken = LocalStorageService.getRefreshToken();
+					const accessToken = LocalStorageService.getAccessToken();
+
+					return this.axios
+						.post('api/Tokens/refreshToken', {
+							AccessToken: accessToken,
+							RefreshToken: refreshToken,
+						})
+						.then((res) => {
+							// console.log('refreshToken', res);
+
+							LocalStorageService.setAccessToken(
+								res.data.accessToken
+							);
+							LocalStorageService.setRefreshToken(
+								res.data.refreshToken
+							);
+							axios.defaults.headers.common['Authorization'] =
+								'Bearer ' +
+								LocalStorageService.getAccessToken();
+							return axios(originalRequest);
+						});
+				}
+
+				return Promise.reject(error);
+			}
+		);
 	}
 
 	async post<TRequest, TResponse>(
