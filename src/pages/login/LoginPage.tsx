@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import {
 	LoginClient,
 	LoginModel,
 	LoginResult,
 } from '../../network/loginClient';
-import { useNavigate } from 'react-router-dom';
-import { Col, Row } from 'react-bootstrap';
 
 function LoginPage() {
 	const navigate = useNavigate(); // react-router-dom dana gelen hook ile ts den yönlendirme yapılabilir
@@ -21,6 +21,8 @@ function LoginPage() {
 	const onSubmit = async (event: any) => {
 		event.preventDefault(); // formun post edilmesini engelliyoruz
 		const result: LoginResult = await loginService.login(formState);
+
+		console.log('result-1', result);
 
 		if (result.isSucceded) {
 			navigate('/');

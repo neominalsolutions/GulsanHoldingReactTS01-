@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AbilityContext, Can } from '../casl/Can';
+import { LocalStorageService } from '../storage/LocalStorage';
+import { updateAbility } from '../casl/Ability';
 
 export interface IMenu {
 	text: string;
@@ -8,6 +11,9 @@ export interface IMenu {
 }
 
 function Menu() {
+	const ability = useContext(AbilityContext);
+	const navigate = useNavigate();
+
 	const menuList: Array<IMenu> = [
 		{
 			text: 'Anasayfa',
@@ -57,29 +63,53 @@ function Menu() {
 					id='basic-navbar-nav'
 					className='justify-content-end'>
 					<NavDropdown
-						title='Hesap'
+						title={LocalStorageService.getEmail()}
 						id='basic-nav-dropdown'>
-						<NavDropdown.Item>
-							<Link
-								style={{ textDecoration: 'none' }}
-								to={'/account/login'}>
-								Oturum Aç
-							</Link>
-						</NavDropdown.Item>
-						<NavDropdown.Item>
-							<Link
-								style={{ textDecoration: 'none' }}
-								to={'/account/new-login'}>
-								Oturum Aç (Yeni)
-							</Link>
-						</NavDropdown.Item>
-						<NavDropdown.Item>
-							<div
-								onClick={() => {}}
-								className='link text-primary'>
-								Oturumu Kapat
-							</div>
-						</NavDropdown.Item>
+						{ability.can('unauthorized') && (
+							<NavDropdown.Item>
+								<Link
+									style={{ textDecoration: 'none' }}
+									to={'/account/login'}>
+									Oturum Aç
+								</Link>
+							</NavDropdown.Item>
+						)}
+						{ability.can('unauthorized') && (
+							<NavDropdown.Item>
+								<Link
+									style={{ textDecoration: 'none' }}
+									to={'/account/new-login'}>
+									Oturum Aç (Yeni)
+								</Link>
+							</NavDropdown.Item>
+						)}
+						{ability.can('authorized') && (
+							<NavDropdown.Item>
+								<div
+									onClick={() => {
+										LocalStorageService.removeTokens();
+										updateAbility(ability, null);
+										navigate('/account/new-login');
+									}}
+									className='link text-primary'>
+									Oturumu Kapat
+								</div>
+							</NavDropdown.Item>
+						)}
+						<Can
+							I='login'
+							an='adminPanel'
+							ability={ability}>
+							<NavDropdown.Item>
+								<div
+									onClick={() => {
+										navigate('/admin');
+									}}
+									className='link text-primary'>
+									Yönetici Girişi
+								</div>
+							</NavDropdown.Item>
+						</Can>
 					</NavDropdown>
 				</Navbar.Collapse>
 			</Container>

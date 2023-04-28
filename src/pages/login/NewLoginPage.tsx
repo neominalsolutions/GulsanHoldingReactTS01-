@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import { useMutation } from '@tanstack/react-query';
+import { useContext } from 'react';
+import { Alert, Col, Row } from 'react-bootstrap';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { updateAbility } from '../../casl/Ability';
+import { AbilityContext } from '../../casl/Can';
 import {
 	LoginClient,
 	LoginModel,
 	LoginResult,
 } from '../../network/loginClient';
-import { useNavigate } from 'react-router-dom';
-import { Alert, Col, Row } from 'react-bootstrap';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
+import { LocalStorageService } from '../../storage/LocalStorage';
 
 function NewLoginPage() {
 	const navigate = useNavigate(); // react-router-dom dana gelen hook ile ts den yönlendirme yapılabilir
@@ -25,6 +28,8 @@ function NewLoginPage() {
 		},
 	});
 
+	const ability = useContext(AbilityContext);
+
 	// Mutations
 	const loginClient = useMutation({
 		mutationFn: async (formValue: LoginModel) => {
@@ -33,6 +38,7 @@ function NewLoginPage() {
 		onSuccess: (result: LoginResult, formData: LoginModel) => {
 			console.log('formData', formData);
 			if (result.isSucceded) {
+				updateAbility(ability, LocalStorageService.getUserInfo());
 				navigate('/');
 			}
 		},

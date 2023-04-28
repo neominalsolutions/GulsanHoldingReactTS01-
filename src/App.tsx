@@ -6,11 +6,23 @@ import HomePage from './pages/home/HomePage';
 import Promises from './pages/promises/Promises';
 import LoginPage from './pages/login/LoginPage';
 import NewLoginPage from './pages/login/NewLoginPage';
-
+import { updateAbility } from './casl/Ability';
+import { LocalStorageService } from './storage/LocalStorage';
+import { AbilityContext } from './casl/Can';
+import { useContext } from 'react';
+import { Can } from '@casl/react';
 
 function App() {
 	// bu uygulamanın ilk ayağa kalktığı dosya olduğu için tüm yönlendirme routing.config dosyaları buradan çalıacaktır.
 	// useRoutes hook artık uygulamanın clientside route tanımlarını okumasını sağlarız.
+
+	// updateAbility(LocalStorageService.getUserInfo());
+
+	const ability = useContext(AbilityContext);
+	const user = LocalStorageService.getUserInfo();
+
+	updateAbility(ability, user);
+
 	const routes: RouteObject[] = [
 		{
 			path: '/',
@@ -44,7 +56,7 @@ function App() {
 		},
 		{
 			path: '/admin', // admin routes
-			element: <>Admin Page</>,
+			element: <>Admin Panel</>,
 			children: [
 				{
 					path: '/admin/users',

@@ -5,22 +5,28 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AbilityContext } from './casl/Can';
+import { Ability } from '@casl/ability';
 
 // Tüm uygulamayı queryclient provider ile sarmallarız. Böyle tüm uygulama genelinde bütün hata mesajları tüm asenkron işlemler react-query ile sarmallanır, başarılı ve hata durumlarını yakalama şansımız olur.
 // daha sonra post,put,delete gibi işlemler için mutation veri yakalama fetch işlemleri için ise query kullanırız. Tüm network akışı belirli bir formatta sarmallanmış olur.
 
 // Create a client
 const queryClient = new QueryClient();
+const ability = new Ability();
 
 const root = ReactDOM.createRoot(
 	document.getElementById('root') as HTMLElement
 );
 root.render(
 	<BrowserRouter>
-		<QueryClientProvider client={queryClient}>
-			<App />
-		</QueryClientProvider>
+		<AbilityContext.Provider value={ability}>
+			<QueryClientProvider client={queryClient}>
+				<App />
+			</QueryClientProvider>
+		</AbilityContext.Provider>
 	</BrowserRouter>
+
 	// <React.StrictMode>
 	// sadece development da test amaçlı açık olan bir mod bu mod yüzünden component içerisindeki hooklar iki kez tetiklenir. ama production modda burası kapalı.
 	/* BrowserRouter ile tüm uygulama sarmallıyoruz ve tüm uygulama JS routing yapar. */

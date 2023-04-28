@@ -1,22 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Menu from './Menu';
 import Header from './Header';
 import Footer from './Footer';
 import { Outlet } from 'react-router-dom';
 import { Container, Row } from 'react-bootstrap';
+import { AbilityContext } from '../casl/Can';
 // import { Outlet } from 'react-router-dom';
 
 function Layout() {
+	const ability = useContext(AbilityContext);
 	return (
 		<div>
-			<Header text='React TS 18.2.0 version' />
+			{ability.can('DeveloperMode', 'Show') && (
+				<Header text='React TS 18.2.0 version' />
+			)}
 			<Menu />
-
 			<Container style={{ height: '100vh' }}>
 				{/* dinamik içeriğin değişeceği kısmı outlet olarak iaşaretledik. sayfalar değişince buraya ilgili sayfa componentleri gelecek. */}
 				<Outlet />
 			</Container>
-
 			<Container fluid>
 				<Footer>
 					{/* p olan jsx elementini Footer içinde Layout içerisinde gönderdik. children <p> elementi yakalıyp ilgili div içine basacaktır. */}

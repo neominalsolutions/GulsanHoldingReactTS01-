@@ -58,7 +58,7 @@ export default class HttpClient implements IHttpClient {
 	private useInteceptors(): void {
 		this.axios.interceptors.request.use(
 			(response) => {
-				console.log('request-int', response);
+				// console.log('request-int', response);
 
 				let token = LocalStorageService.getAccessToken();
 
@@ -80,8 +80,6 @@ export default class HttpClient implements IHttpClient {
 				return response;
 			},
 			(error: any) => {
-				// console.log('axios-401-error', error);
-
 				const originalRequest = error.config; // original request
 
 				if (error.response.status === 401) {

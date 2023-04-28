@@ -16,6 +16,7 @@ export interface LoginResult {
 import { AxiosHeaders } from 'axios';
 import HttpClient, { IHttpClient } from './httpClient';
 import { LocalStorageService } from '../storage/LocalStorage';
+import jwt_decode from 'jwt-decode';
 
 // apidaki hangi uçlarla haberleşeceğimiz belirledim.
 export interface ILoginClient {
@@ -45,7 +46,6 @@ export class LoginClient implements ILoginClient {
 				this.endpoint,
 				param
 			);
-			console.log('token', token);
 			LocalStorageService.setAccessToken(token.accessToken);
 			LocalStorageService.setRefreshToken(token.refreshToken);
 			return { isSucceded: true } as LoginResult;
